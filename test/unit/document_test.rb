@@ -21,8 +21,20 @@
 require 'test_helper'
 
 describe "a Riagent::Document" do
-  it "should pass" do
-    doc = User.new
-    assert true
+  # See test/examples/models/user.rb
+  # User class includes the Riagent::Document mixin
+  let(:user_document) { User.new }
+
+  it "has a key" do
+    user_document.key.must_be_nil # first initialized
+    test_key = 'george'
+    user_document.key = test_key
+    user_document.key.must_equal test_key
+    # Test for the .id alias
+    user_document.id.must_equal test_key
+  end
+  
+  it "has model attributes" do
+    user_document.attributes.count.must_equal 3  # :username, :email, :language
   end
 end
