@@ -35,5 +35,35 @@ module Riagent
       attr_accessor :key
       alias_method :id, :key  # document.id same as document.key, to maintain Rails idiom
     end
+    
+    # Returns the JSON representation of the document. 
+    # Does not include the document +key+
+    def to_json_document
+      self.attributes.to_json
+    end
+    
+    module ClassMethods
+      # Returns a Riagent::Document instance, given a JSON string
+      # @param [String] json_object JSON Object string
+      # @param [String] key Optional document key. If not provided, will be loaded from +_id+ attribute in the JSON itself
+      # @return [Riagent::Document, nil] Riagent::Document instance, or nil if the JSON string is nil/empty
+      def from_json(json_obj, key=nil)
+        return nil if json_obj.nil? or json_obj.empty?
+        attributes_hash = JSON.parse(json_obj)
+        return nil if attributes_hash.empty?
+        instance = self.instantiate(attributes_hash)
+        if key.nil?
+          # Load key from the JSON object
+          key = attributes_hash['_id']
+        end
+        instance.key = key
+        instance
+      end
+      
+      # Returns Riagent::Document instance, given a Hash of attributes
+      def instantiate(attributes)
+        self.new attributes
+      end
+    end
   end
 end
