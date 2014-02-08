@@ -19,8 +19,21 @@
 ## -------------------------------------------------------------------
 
 require "riagent/document/version"
+require "active_support/concern"
+require 'active_support/json'
+require 'active_support/core_ext/object/to_json'
+require "virtus"
+require "virtus/attribute"
 
 module Riagent
-  module Documents
+  module Document
+    extend ActiveSupport::Concern
+    
+    included do
+      include Virtus.model  # Virtus is used to manage document attributes
+      
+      attr_accessor :key
+      alias_method :id, :key  # document.id same as document.key, to maintain Rails idiom
+    end
   end
 end

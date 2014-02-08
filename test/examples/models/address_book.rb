@@ -1,6 +1,6 @@
 ## ------------------------------------------------------------------- 
 ## 
-## Copyright (c) "2013" Dmitri Zagidulin and Basho Technologies, Inc.
+## Copyright (c) "2014" Dmitri Zagidulin and Basho Technologies, Inc.
 ##
 ## This file is provided to you under the Apache License,
 ## Version 2.0 (the "License"); you may not use this file
@@ -18,14 +18,16 @@
 ##
 ## -------------------------------------------------------------------
 
-require 'bundler/gem_tasks'
-require 'rake'
-require 'rake/testtask'
-
-task :default => :test
-
-Rake::TestTask.new :test do |t|
-  t.libs << 'lib' << 'test'
-  t.pattern = 'test/**/*_test.rb'
+class Contact
+  include Riagent::Document
+  
+  attribute :contact_name, String
+  attribute :contact_email, String
 end
 
+class AddressBook
+  include Riagent::Document
+  
+  attribute :user_key, String
+  attribute :contacts, Set[Contact]
+end

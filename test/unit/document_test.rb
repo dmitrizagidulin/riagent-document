@@ -1,6 +1,6 @@
 ## ------------------------------------------------------------------- 
 ## 
-## Copyright (c) "2013" Dmitri Zagidulin and Basho Technologies, Inc.
+## Copyright (c) "2014" Dmitri Zagidulin and Basho Technologies, Inc.
 ##
 ## This file is provided to you under the Apache License,
 ## Version 2.0 (the "License"); you may not use this file
@@ -18,14 +18,11 @@
 ##
 ## -------------------------------------------------------------------
 
-require 'bundler/gem_tasks'
-require 'rake'
-require 'rake/testtask'
+require 'test_helper'
 
-task :default => :test
-
-Rake::TestTask.new :test do |t|
-  t.libs << 'lib' << 'test'
-  t.pattern = 'test/**/*_test.rb'
+describe "a Riagent::Document" do
+  it "should pass" do
+    doc = User.new
+    assert true
+  end
 end
-
