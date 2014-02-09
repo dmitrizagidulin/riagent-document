@@ -84,7 +84,6 @@ puts json_str
 And then, of course, re-hydrate the JSON string back into document instances:
 
 ```ruby
-require 'riak-client'
 new_book = AddressBook.from_json(json_str)
 puts new_book.inspect
 # <AddressBook:0x00000102a38fd8 @user_key="test-user123", 
@@ -96,6 +95,7 @@ Now that you can convert model objects into JSON strings and back, how do you ac
 
 You can manually persist them to Riak by using the [Riak Ruby Client](https://github.com/basho/riak-ruby-client):
 ```ruby
+require 'riak-client'
 # Get an instance of the model object
 user = User.new username: 'Test User', email: 'test@user.com'
 
