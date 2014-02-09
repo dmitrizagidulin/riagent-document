@@ -21,7 +21,7 @@
 class User
   include Riagent::Document
   
-  attribute :username, String, search_index: { as: :text }
-  attribute :email, String, search_index: { as: :string }
+  attribute :username, String
+  attribute :email, String
   attribute :language, String, default: 'en'
 end
