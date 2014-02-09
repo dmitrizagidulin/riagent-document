@@ -84,8 +84,39 @@ puts json_str
 And then, of course, re-hydrate the JSON string back into document instances:
 
 ```ruby
+require 'riak-client'
 new_book = AddressBook.from_json(json_str)
 puts new_book.inspect
 # <AddressBook:0x00000102a38fd8 @user_key="test-user123", 
-    @contacts=#<Set: {#<Contact:0x00000102a38df8 @contact_name="Joe", @contact_email="joe@test.net">, #<Contact:0x00000102a387e0 @contact_name="Jane", @contact_email="jane@test.net">}>, ...>
+#   @contacts=#<Set: {#<Contact:0x00000102a38df8 @contact_name="Joe", @contact_email="joe@test.net">, #<Contact:0x00000102a387e0 @contact_name="Jane", @contact_email="jane@test.net">}>, ...>
+```
+
+### Persistence
+Now that you can convert model objects into JSON strings and back, how do you actually save them to Riak?
+
+You can manually persist them to Riak by using the [Riak Ruby Client](https://github.com/basho/riak-ruby-client):
+```ruby
+# Get an instance of the model object
+user = User.new username: 'Test User', email: 'test@user.com'
+
+# Initialize a Riak client, and save
+client = Riak::Client.new
+riak_object = client.bucket("users").get_or_new("test-user-123")  # a Riak::RObject for bucket "users" and key "test-user-123"
+riak_object.content_type = "application/json"
+riak_object.raw_data = user.to_json_document
+riak_object.store
+```
+
+Or save documents to [Solr](https://github.com/basho/yokozuna/)-indexed collections via the 
+[RiakJson Client](https://github.com/basho-labs/riak_json_ruby_client):
+
+```ruby
+require 'riak_json'
+# Get an instance of the model object
+user = User.new username: 'Test User', email: 'test@user.com'
+
+# Insert into a RiakJson collection
+client = RiakJson::Client.new
+collection = client.collection("users")
+collection.insert(user)
 ```
