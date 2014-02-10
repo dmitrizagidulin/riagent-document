@@ -37,4 +37,8 @@ describe "a Riagent::Document" do
   it "has model attributes" do
     user_document.attributes.count.must_equal 3  # :username, :email, :language
   end
+  
+  it "should respond to to_json_document()" do
+    assert user_document.respond_to?(:to_json_document)
+  end
 end

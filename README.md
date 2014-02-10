@@ -93,7 +93,9 @@ puts new_book.inspect
 ### Persistence
 Now that you can convert model objects into JSON strings and back, how do you actually save them to Riak?
 
+#### 1. Manual - Riak Client
 You can manually persist them to Riak by using the [Riak Ruby Client](https://github.com/basho/riak-ruby-client):
+
 ```ruby
 require 'riak-client'
 # Get an instance of the model object
@@ -107,6 +109,7 @@ riak_object.raw_data = user.to_json_document
 riak_object.store
 ```
 
+#### 2. Manual - RiakJson Client
 Or save documents to [Solr](https://github.com/basho/yokozuna/)-indexed collections via the 
 [RiakJson Client](https://github.com/basho-labs/riak_json_ruby_client):
 
