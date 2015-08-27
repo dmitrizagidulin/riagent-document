@@ -21,7 +21,7 @@
 require "riagent/document/version"
 require "active_support/concern"
 require 'active_support/json'
-require 'active_support/core_ext/object/to_json'
+require 'active_support/core_ext/object/json'
 require "virtus"
 require "virtus/attribute"
 
